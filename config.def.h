@@ -87,34 +87,34 @@ float alpha = 0.5;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
-	/* 8 normal colors */
-	[0] = "#000000", /* black   */
-	[1] = "#ff5555", /* red     */
-	[2] = "#50fa7b", /* green   */
-	[3] = "#f1fa8c", /* yellow  */
-	[4] = "#bd93f9", /* blue    */
-	[5] = "#ff79c6", /* magenta */
-	[6] = "#8be9fd", /* cyan    */
-	[7] = "#bbbbbb", /* white   */
+	  /* 8 normal colors */
+	  [0] = "#000000", /* black   */
+	  [1] = "#ff5555", /* red     */
+	  [2] = "#50fa7b", /* green   */
+	  [3] = "#f1fa8c", /* yellow  */
+	  [4] = "#bd93f9", /* blue    */
+	  [5] = "#ff79c6", /* magenta */
+	  [6] = "#8be9fd", /* cyan    */
+	  [7] = "#bbbbbb", /* white   */
 
-	/* 8 bright colors */
-	[8]  = "#44475a", /* black   */
-	[9]  = "#ff5555", /* red     */
-	[10] = "#50fa7b", /* green   */
-	[11] = "#f1fa8c", /* yellow  */
-	[12] = "#bd93f9", /* blue    */
-	[13] = "#ff79c6", /* magenta */
-	[14] = "#8be9fd", /* cyan    */
-	[15] = "#ffffff", /* white   */
+	  /* 8 bright colors */
+	  [8]  = "#44475a", /* black   */
+	  [9]  = "#ff5555", /* red     */
+	  [10] = "#50fa7b", /* green   */
+	  [11] = "#f1fa8c", /* yellow  */
+	  [12] = "#bd93f9", /* blue    */
+	  [13] = "#ff79c6", /* magenta */
+	  [14] = "#8be9fd", /* cyan    */
+	  [15] = "#ffffff", /* white   */
 
-	/* special colors */
-	[256] = "#282a36", /* background */
-	[257] = "#f8f8f2", /* foreground */
+	  /* special colors */
+	  [256] = "#282a36", /* background */
+	  [257] = "#f8f8f2", /* foreground */
 };
 
 /*
  * Default colors (colorname index)
- * foreground, background, cursor
+ * foreground, background, cursor, reverse cursor
  */
 unsigned int defaultfg = 7;
 unsigned int defaultbg = 0;
@@ -128,7 +128,6 @@ static unsigned int defaultrcs = 257;
  */
 unsigned int defaultitalic = 7;
 unsigned int defaultunderline = 7;
-
 /*
  * Default shape of cursor
  * 2: Block ("█")
@@ -159,26 +158,55 @@ static unsigned int mousebg = 0;
 static unsigned int defaultattr = 11;
 
 /*
+ * Xresources preferences to load at startup
+ */
+ResourcePref resources[] = {
+		{ "font",         STRING,  &font },
+		{ "color0",       STRING,  &colorname[0] },
+		{ "color1",       STRING,  &colorname[1] },
+		{ "color2",       STRING,  &colorname[2] },
+		{ "color3",       STRING,  &colorname[3] },
+		{ "color4",       STRING,  &colorname[4] },
+		{ "color5",       STRING,  &colorname[5] },
+		{ "color6",       STRING,  &colorname[6] },
+		{ "color7",       STRING,  &colorname[7] },
+		{ "color8",       STRING,  &colorname[8] },
+		{ "color9",       STRING,  &colorname[9] },
+		{ "color10",      STRING,  &colorname[10] },
+		{ "color11",      STRING,  &colorname[11] },
+		{ "color12",      STRING,  &colorname[12] },
+		{ "color13",      STRING,  &colorname[13] },
+		{ "color14",      STRING,  &colorname[14] },
+		{ "color15",      STRING,  &colorname[15] },
+		{ "background",   STRING,  &colorname[256] },
+		{ "foreground",   STRING,  &colorname[257] },
+		{ "cursorColor",  STRING,  &colorname[258] },
+		{ "termname",     STRING,  &termname },
+		{ "shell",        STRING,  &shell },
+		{ "xfps",         INTEGER, &xfps },
+		{ "actionfps",    INTEGER, &actionfps },
+		{ "blinktimeout", INTEGER, &blinktimeout },
+		{ "bellvolume",   INTEGER, &bellvolume },
+		{ "tabspaces",    INTEGER, &tabspaces },
+		{ "borderpx",     INTEGER, &borderpx },
+		{ "cwscale",      FLOAT,   &cwscale },
+		{ "chscale",      FLOAT,   &chscale },
+		{ "alpha",        FLOAT,   &alpha   },
+};
+
+/*
  * Internal mouse shortcuts.
  * Beware that overloading Button1 will disable the selection.
  */
 static MouseShortcut mshortcuts[] = {
 	/* button               mask            string */
-	{ Button4,              XK_NO_MOD,      "\031" },
-	{ Button5,              XK_NO_MOD,      "\005" },
+	{ Button4,              XK_ANY_MOD,     "\031" },
+	{ Button5,              XK_ANY_MOD,     "\005" },
 };
 
 /* Internal keyboard shortcuts. */
 #define MODKEY Mod1Mask
 #define TERMMOD (ControlMask|ShiftMask)
-
-MouseKey mkeys[] = {
-	/* button               mask            function        argument */
-	{ Button4,              ShiftMask,      kscrollup,      {.i =  1} },
-	{ Button5,              ShiftMask,      kscrolldown,    {.i =  1} },
-	{ Button4,              TERMMOD,        zoom,           {.f = +1} },
-	{ Button5,              TERMMOD,        zoom,           {.f = -1} },
-};
 
 static Shortcut shortcuts[] = {
 	/* mask                 keysym          function        argument */
@@ -196,6 +224,7 @@ static Shortcut shortcuts[] = {
 	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
 	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
+    { TERMMOD,              XK_Escape,      keyboard_select,{ 0 } },
 };
 
 /*
