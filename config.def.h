@@ -88,29 +88,29 @@ float alpha = 0.5;
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
 	  /* 8 normal colors */
-	  [0] = "#000000", /* black   */
-	  [1] = "#ff5555", /* red     */
-	  [2] = "#50fa7b", /* green   */
-	  [3] = "#f1fa8c", /* yellow  */
-	  [4] = "#bd93f9", /* blue    */
-	  [5] = "#ff79c6", /* magenta */
-	  [6] = "#8be9fd", /* cyan    */
-	  [7] = "#bbbbbb", /* white   */
+	  [0] = "#000000",  /* black   */
+	  [1] = "red3",     /* red     */
+	  [2] = "green3",   /* green   */
+	  [3] = "yellow3",  /* yellow  */
+	  [4] = "blue2",    /* blue    */
+	  [5] = "magenta3", /* magenta */
+	  [6] = "cyan3",    /* cyan    */
+	  [7] = "gray90",   /* white   */
 
 	  /* 8 bright colors */
-	  [8]  = "#44475a", /* black   */
-	  [9]  = "#ff5555", /* red     */
-	  [10] = "#50fa7b", /* green   */
-	  [11] = "#f1fa8c", /* yellow  */
-	  [12] = "#bd93f9", /* blue    */
-	  [13] = "#ff79c6", /* magenta */
-	  [14] = "#8be9fd", /* cyan    */
-	  [15] = "#ffffff", /* white   */
+	  [8]  = "gray50",  /* black   */
+	  [9]  = "red",     /* red     */
+	  [10] = "green",   /* green   */
+	  [11] = "yellow",  /* yellow  */
+	  [12] = "#5c5cff", /* blue    */
+	  [13] = "magenta", /* magenta */
+	  [14] = "cyan",    /* cyan    */
+	  [15] = "#aaaaaa", /* white   */
 
 	  /* special colors */
-	  [256] = "#282a36", /* background */
-	  [257] = "#f8f8f2", /* foreground */
-	  [258] = "#f8f8f2", /* cursorColor */
+	  [256] = "#000000", /* background */
+	  [257] = "#aaaaaa", /* foreground */
+	  [258] = "#aaaaaa", /* cursorColor */
 };
 
 /*
@@ -201,13 +201,21 @@ ResourcePref resources[] = {
  */
 static MouseShortcut mshortcuts[] = {
 	/* button               mask            string */
-	{ Button4,              XK_ANY_MOD,     "\031" },
-	{ Button5,              XK_ANY_MOD,     "\005" },
+	{ Button4,              XK_NO_MOD,      "\031" },
+	{ Button5,              XK_NO_MOD,      "\005" },
 };
 
 /* Internal keyboard shortcuts. */
 #define MODKEY Mod1Mask
 #define TERMMOD (ControlMask|ShiftMask)
+
+MouseKey mkeys[] = {
+	/* button               mask            function        argument */
+	{ Button4,              ShiftMask,      kscrollup,      {.i =  1} },
+	{ Button5,              ShiftMask,      kscrolldown,    {.i =  1} },
+	{ Button4,              MODKEY,         zoom,           {.f = +1} },
+	{ Button5,              MODKEY,         zoom,           {.f = -1} },
+};
 
 static Shortcut shortcuts[] = {
 	/* mask                 keysym          function        argument */
