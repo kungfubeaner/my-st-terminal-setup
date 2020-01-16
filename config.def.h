@@ -220,8 +220,8 @@ MouseKey mkeys[] = {
 	/* button               mask            function        argument */
 	{ Button4,              ShiftMask,      kscrollup,      {.i =  3} },
 	{ Button5,              ShiftMask,      kscrolldown,    {.i =  3} },
-	{ Button4,              TERMMOD,         zoom,           {.f = +1} },
-	{ Button5,              TERMMOD,         zoom,           {.f = -1} },
+	{ Button4,              ControlMask,    zoom,           {.f = +1} },
+	{ Button5,              ControlMask,    zoom,           {.f = -1} },
 };
 
 static Shortcut shortcuts[] = {
@@ -230,9 +230,9 @@ static Shortcut shortcuts[] = {
 	{ ControlMask,          XK_Print,       toggleprinter,  {.i =  0} },
 	{ ShiftMask,            XK_Print,       printscreen,    {.i =  0} },
 	{ XK_ANY_MOD,           XK_Print,       printsel,       {.i =  0} },
-	{ TERMMOD,              XK_Prior,       zoom,           {.f = +1} },
-	{ TERMMOD,              XK_Next,        zoom,           {.f = -1} },
-	{ TERMMOD,              XK_Home,        zoomreset,      {.f =  0} },
+	{ ControlMask,          XK_Prior,       zoom,           {.f = +1} },
+	{ ControlMask,          XK_Next,        zoom,           {.f = -1} },
+	{ ControlMask,          XK_Home,        zoomreset,      {.f =  0} },
 	{ TERMMOD,              XK_C,           clipcopy,       {.i =  0} },
 	{ TERMMOD,              XK_V,           clippaste,      {.i =  0} },
 	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
